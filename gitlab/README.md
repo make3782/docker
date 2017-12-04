@@ -23,7 +23,7 @@ mkdir -p /data/gitlab/data
     --volume /data/gitlab/config:/etc/gitlab \
     --volume /data/gitlab/logs:/var/log/gitlab \
     --volume /data/gitlab/data:/var/opt/gitlab \
-    wzx/gitlab:[版本号]
+    registry.cn-beijing.aliyuncs.com/wzx/gitlab:[版本号]
 ```
 
 ## 进入容器查看：
