@@ -1,4 +1,4 @@
-#!bin/sh
+i#!bin/sh
 
 if [ ! $DB_HOST ]; then
 	DB_HOST='mongodb://mongo:27017/DOClever'
