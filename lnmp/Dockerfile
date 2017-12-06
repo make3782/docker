@@ -6,6 +6,8 @@ RUN apt-get update \
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	&& apt-get autoremove -y \
 
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 
 RUN mkdir -p /var/log/supervisor
 
