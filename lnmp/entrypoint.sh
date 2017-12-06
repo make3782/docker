@@ -1,6 +1,6 @@
 #!/bin/bash
 
-icat >>/etc/supervisord.conf<<-EOF
+cat >>/etc/supervisord.conf<<-EOF
 [supervisord]
 nodaemon=true
 [program:DOClever]
