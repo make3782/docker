@@ -1,7 +1,7 @@
 lnmp:
-	image: registry-vpc.cn-beijing.aliyuncs.com/wzx/lnmp:1.0.0
-	ports:
-		- "80:80"
-		- "3306:3306"
-	volumes:
-		- /data/lnmp/www/:/www/:rw
+  image: registry-vpc.cn-beijing.aliyuncs.com/wzx/lnmp:1.0.0
+  ports:
+    - "80:80"
+    - "3306:3306"
+  volumes:
+    - /data/lnmp/www/:/www/:rw
