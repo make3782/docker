@@ -4,12 +4,4 @@ lnmp:
 		- "80:80"
 		- "3306:3306"
 	volumes:
-		- /data/lnmp/www/:/home/wwwroot/default/:rw
-
-		- /data/lnmp/conf/nginx/:/usr/local/nginx/conf/:ro
-		- /data/lnmp/conf/php/:/usr/local/php/etc/:ro
-		- /data/lnmp/conf/mysql/my.cnf:/etc/my.cnf:ro
-
-		- /data/lnmp/data/mysql/:/usr/local/mysql/:rw
-
-		- /data/lnmp/logs/nginx/:/home/wwwlogs/:ro
+		- /data/lnmp/www/:/www/:rw
