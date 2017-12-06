@@ -4,7 +4,7 @@ MAINTAINER wzx 181788481@qq.com
 RUN apt-get update \
 	&& apt-get install -y supervisor
 	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-	&& apt-get autoremove -y \
+	&& apt-get autoremove -y
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
