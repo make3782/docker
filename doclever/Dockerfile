@@ -25,7 +25,7 @@ RUN mkdir -p /var/log/supervisor
 
 # only for local test, copy source code of DOClever to this file, create a fold named "source", and paste codes into it.
 #COPY /source /root/DOClever
-RUN git clone https://github.com/sx1989827/DOClever.git /root/DOClever
+RUN git clone -b 5.0.1 https://github.com/sx1989827/DOClever.git /root/DOClever
 
 EXPOSE 10000
 
