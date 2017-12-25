@@ -7,8 +7,6 @@ COPY ./sources.list.jessie /etc/apt/sources.list
 # PHP by default. If missing, install them directly by `docker-php-ext-install extension_name`
 
 
-# 安装mssql的pdo_dblib所需的FreeTDS
-
 # Notice:
 # 1. Mcrypt was DEPRECATED in PHP 7.1.0, and REMOVED in PHP 7.2.0.
 # 2. opcache requires PHP version >= 7.0.0.
@@ -101,6 +99,7 @@ RUN apt-get update \
 	#&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
 	#&& docker-php-ext-install ldap \
 
+# 安装mssql的pdo扩展，mssql的字符编码使用utf8
 RUN apt-get install -y wget  \
 	&& wget ftp://ftp.freetds.org/pub/freetds/stable/freetds-1.00.80.tar.gz \
 	&& tar -zxvf freetds-1.00.80.tar.gz \
@@ -114,9 +113,7 @@ RUN apt-get install -y wget  \
 	&& ldconfig \
 	&& docker-php-ext-configure pdo_dblib --with-pdo-dblib=/usr/local/freetds/ \
 	&& docker-php-ext-install pdo_dblib \
-	&& docker-php-ext-enable pdo_dblib
-
-
+	&& sed -i '/global/a\client charset = UTF8' /usr/local/freetds/etc/freetds.conf
 
 # timezone
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone

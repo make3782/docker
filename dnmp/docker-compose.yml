@@ -24,6 +24,6 @@ services:
       - "9000:9000"
     volumes:
       - ${WWW_PATH}:/www/:rw                               # 挂载www目录
-      - ./conf/php/php.ini:/usr/local/etc/php/php.ini:ro # php.ini配置文件
+      - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw # php.ini配置文件
       - ./conf/php/php-fpm.ini:/usr/local/etc/php/php-fpm.d/www.conf:rw # php-fpm.ini配置文件
       - ./logs/php/:/var/log/php-fpm/:rw                            # php-fpm日志
