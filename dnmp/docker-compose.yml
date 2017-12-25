@@ -1,0 +1,29 @@
+version: "2"
+services:
+  nginx:
+    image: nginx:alpine         # 使用alpine版本：最新的nginx版本+只有15M+支持http2
+    # restart: always
+    container_name: "nginx"
+    ports:
+      - "80:80"
+    volumes:
+      - ${WWW_PATH}:/www/:rw                               # 挂载www目录
+      - ./conf/nginx/vhosts/:/etc/nginx/vhosts/:ro             # 挂载nginx站点的配置目录
+      - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro # 挂载nginx的基础配置文件
+      - ./conf/nginx/conf.d/:/etc/nginx/conf.d/:ro       # 挂载nginx的基础配置文件
+      - ./logs/nginx/:/var/log/nginx/:rw                       # 挂载nginx日志目录
+    depends_on:
+      - php56
+    links:
+      - php56:fpm
+
+  php56:
+    build: ./build/php/php56/
+    container_name: "php56"
+    ports:
+      - "9000:9000"
+    volumes:
+      - ${WWW_PATH}:/www/:rw                               # 挂载www目录
+      - ./conf/php/php.ini:/usr/local/etc/php/php.ini:ro # php.ini配置文件
+      - ./conf/php/php-fpm.ini:/usr/local/etc/php/php-fpm.d/www.conf:rw # php-fpm.ini配置文件
+      - ./logs/php/:/var/log/php-fpm/:rw                            # php-fpm日志
