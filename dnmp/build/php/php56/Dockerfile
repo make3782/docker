@@ -6,6 +6,9 @@ COPY ./sources.list.jessie /etc/apt/sources.list
 # tokenizer, simplexml, xml, xmlreader, xmlwriter and phar are bundled and compiled into
 # PHP by default. If missing, install them directly by `docker-php-ext-install extension_name`
 
+
+# 安装mssql的pdo_dblib所需的FreeTDS
+
 # Notice:
 # 1. Mcrypt was DEPRECATED in PHP 7.1.0, and REMOVED in PHP 7.2.0.
 # 2. opcache requires PHP version >= 7.0.0.
@@ -46,7 +49,7 @@ RUN apt-get update \
 	&& docker-php-ext-install sysvshm \
 	&& docker-php-ext-install opcache
 	#&& docker-php-ext-install pdo_firebird \
-	# && docker-php-ext-install pdo_dblib \
+	# && docker-php-ext-install pdo_dblib
 	#&& docker-php-ext-install pdo_oci \
 	#&& docker-php-ext-install pdo_odbc \
 	#&& docker-php-ext-install pdo_pgsql \
@@ -97,6 +100,22 @@ RUN apt-get update \
 	#&& apt-get install -y libldap2-dev \
 	#&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
 	#&& docker-php-ext-install ldap \
+
+RUN apt-get install -y wget  \
+	&& wget ftp://ftp.freetds.org/pub/freetds/stable/freetds-1.00.80.tar.gz \
+	&& tar -zxvf freetds-1.00.80.tar.gz \
+	&& cd freetds-1.00.80 \
+	&& ./configure --prefix=/usr/local/freetds --with-tdsver=7.1 --enable-msdblib \
+	&& make && make install \
+	&& cd /usr/local/freetds \
+	&& ln -s lib lib64 \
+	&& ldconfig -v \
+	&& echo "/usr/local/freetds/lib/" > /etc/ld.so.conf.d/freetds.conf \
+	&& ldconfig \
+	&& docker-php-ext-configure pdo_dblib --with-pdo-dblib=/usr/local/freetds/ \
+	&& docker-php-ext-install pdo_dblib \
+	&& docker-php-ext-enable pdo_dblib
+
 
 
 # timezone
