@@ -101,7 +101,7 @@ RUN apt-get update \
 
 # 安装mssql的pdo扩展，mssql的字符编码使用utf8
 RUN apt-get install -y wget  \
-	&& wget ftp://ftp.freetds.org/pub/freetds/stable/freetds-1.00.80.tar.gz \
+	&& cd / && wget ftp://ftp.freetds.org/pub/freetds/stable/freetds-1.00.80.tar.gz \
 	&& tar -zxvf freetds-1.00.80.tar.gz \
 	&& cd freetds-1.00.80 \
 	&& ./configure --prefix=/usr/local/freetds --with-tdsver=7.1 --enable-msdblib \
@@ -116,7 +116,11 @@ RUN apt-get install -y wget  \
 	&& sed -i '/global/a\client charset = UTF8' /usr/local/freetds/etc/freetds.conf
 
 # timezone
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone \
+	&& rm -rf /freetds-1.00.80.tar.gz && rm -rf /freetds-1.00.80 \
+	&& apt-get purge -y --auto-remove \
+	&& rm -rf /var/cache/apt/* \
+	&& rm -rf /var/lib/apt/lists/* \
 
 # Composer
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
