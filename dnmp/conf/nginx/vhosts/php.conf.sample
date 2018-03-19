@@ -1,0 +1,21 @@
+server {
+	listen       80;
+	server_name  xxx.com;
+	root /www/xxx.com/public;
+
+	#access_log  /var/log/nginx/xxx.com.access.log  main;
+
+
+	location / {
+		if (!-e $request_filename) {
+			rewrite  ^/(.*)$  /index.php?s=$1  last;
+			break;
+		}
+
+		index  index.html index.htm index.php;
+	}
+
+	include "conf.d/enable-php.conf";
+
+
+}
