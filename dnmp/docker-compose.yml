@@ -14,39 +14,39 @@ services:
       - ./conf/nginx/conf.d/:/etc/nginx/conf.d/:ro       # 挂载nginx的基础配置文件
       - ./logs/nginx/:/var/log/nginx/:rw                       # 挂载nginx日志目录
     depends_on:
-      - php72
+      - php56
     links:
-      - php72:fpm
+      - php56:fpm
 
-  # php56:
-  #   build: ./build/php/php56/
-  #   container_name: "php56"
-  #   ports:
-  #     - "9000:9000"
-  #   volumes:
-  #     - ${WWW_PATH}:/www/:rw                               # 挂载www目录
-  #     - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw # php.ini配置文件
-  #     - ./conf/php/php-fpm.ini:/usr/local/etc/php/php-fpm.d/www.conf:rw # php-fpm.ini配置文件
-  #     - ./logs/php/:/var/log/php-fpm/:rw                            # php-fpm日志
-    # links:
-    #   - mysql:mysql
+  php56:
+    build: ./build/php/php56/
+    container_name: "php56"
+    ports:
+      - "9000:9000"
+    volumes:
+      - ${WWW_PATH}:/www/:rw                               # 挂载www目录
+      - ./conf/php/php.ini:/usr/local/etc/php/php.ini:rw # php.ini配置文件
+      - ./conf/php/php-fpm.ini:/usr/local/etc/php/php-fpm.d/www.conf:rw # php-fpm.ini配置文件
+      - ./logs/php/:/var/log/php-fpm/:rw                            # php-fpm日志
+    links:
+      - mysql:mysql
     #   - redis:redis
 
 
 
-  php72:
-    build: ./build/php/php72/
-    container_name: "php72"
-    expose:
-      - "9000"
-    volumes:
-      - ${WWW_PATH}:/www/:rw
-      - ./conf/php/php.ini:/usr/local/etc/php/php.ini:ro
-      - ./conf/php/php-fpm.ini:/usr/local/etc/php/php-fpm.d/www.conf:rw
-      - ./log/php/:/var/log/php-fpm/:rw
-    links:
-      - mysql:mysql
-      # - redis:redis
+  # php72:
+  #   build: ./build/php/php72/
+  #   container_name: "php72"
+  #   expose:
+  #     - "9000"
+  #   volumes:
+  #     - ${WWW_PATH}:/www/:rw
+  #     - ./conf/php/php.ini:/usr/local/etc/php/php.ini:ro
+  #     - ./conf/php/php-fpm.ini:/usr/local/etc/php/php-fpm.d/www.conf:rw
+  #     - ./log/php/:/var/log/php-fpm/:rw
+  #   links:
+  #     - mysql:mysql
+  #     # - redis:redis
 
 
   mysql:
@@ -57,7 +57,7 @@ services:
     volumes:
       - ./conf/mysql/my.cnf:/etc/mysql/my.cnf:ro
       - ./mysql/:/var/lib/mysql/:rw
-      - ./log/mysql/:/var/log/mysql/:rw
+      - ./logs/mysql/:/var/log/mysql/:rw
     environment:
       MYSQL_ROOT_PASSWORD: "123456"
 
