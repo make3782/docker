@@ -118,10 +118,17 @@ RUN apt-get update \
 
 
 # timezone
-RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone \
-	&& apt-get purge -y --auto-remove \
-	&& rm -rf /var/cache/apt/* \
-	&& rm -rf /var/lib/apt/lists/* \
+ENV TZ 'Asia/Shanghai'
+RUN echo $TZ > /etc/timezone && \
+	apt-get update && apt-get install -y tzdata && \
+	rm /etc/localtime && \
+	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+	dpkg-reconfigure -f noninteractive tzdata && \
+	apt-get clean
+# RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone \
+#	&& apt-get purge -y --auto-remove \
+#	&& rm -rf /var/cache/apt/* \
+#	&& rm -rf /var/lib/apt/lists/* \
 
 # Composer
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \

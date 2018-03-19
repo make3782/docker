@@ -1,6 +1,6 @@
 from nginx:alpine
 
-COPY ../sources.list.jessie /etc/apt/sources.list
+COPY sources.list.jessie /etc/apt/sources.list
 
 RUN apk update && apk add ca-certificates && \
 	apk add tzdata && \
