@@ -1,7 +1,8 @@
 version: "2"
 services:
   nginx:
-    image: nginx:alpine         # 使用alpine版本：最新的nginx版本+只有15M+支持http2
+    build: ./build/nginx/
+    # image: nginx:alpine         # 使用alpine版本：最新的nginx版本+只有15M+支持http2
     # restart: always
     container_name: "nginx"
     ports:
@@ -41,7 +42,7 @@ services:
     volumes:
       - ${WWW_PATH}:/www/:rw
       - ./conf/php/php.ini:/usr/local/etc/php/php.ini:ro
-      - ./conf/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ./conf/php/php-fpm.ini:/usr/local/etc/php/php-fpm.d/www.conf:rw
       - ./log/php/:/var/log/php-fpm/:rw
     links:
       - mysql:mysql

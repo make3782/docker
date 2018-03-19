@@ -98,6 +98,13 @@ RUN apt-get update \
 	#&& docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu \
 	#&& docker-php-ext-install ldap \
 
+
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone \
+	&& apt-get purge -y --auto-remove \
+	&& rm -rf /var/cache/apt/* \
+	&& rm -rf /var/lib/apt/lists/* \
+
+
 # Composer
 #RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
 
@@ -107,17 +114,17 @@ RUN apt-get update \
 # or
 #    `Package "xxx" does not have REST xml available`
 # Please turn on proxy (The proxy IP may be docker host IP or others):
-RUN pear config-set http_proxy http://10.0.75.1:1080
+# RUN pear config-set http_proxy http://10.0.75.1:1080
 
 # RUN pecl install redis-3.1.4 \
 	# && docker-php-ext-enable redis \
 	# && :\
-RUN pecl install xdebug-2.6.0alpha1 \
-	&& docker-php-ext-enable xdebug \
-	&& :\
-	&& apt-get install -y libmagickwand-dev \
-	&& pecl install imagick-3.4.3 \
-	&& docker-php-ext-enable imagick
+# RUN pecl install xdebug-2.6.0alpha1 \
+#	&& docker-php-ext-enable xdebug \
+#	&& :\
+#	&& apt-get install -y libmagickwand-dev \
+#	&& pecl install imagick-3.4.3 \
+#	&& docker-php-ext-enable imagick
 	# && :\
 	# && apt-get install -y libmemcached-dev zlib1g-dev \
 	# && pecl install memcached-3.0.4 \
